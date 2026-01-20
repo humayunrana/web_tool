@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universities Comparison Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 10px 6px;
+        }
+        
+        .header-container {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .comparison-table {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+        
+        .table-header-container {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background-color: #f8f9fa;
+        }
+        
+        .table-header {
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            font-weight: 600;
+            display: flex;
+            width: 100%;
+            position: relative;
+        }
+        
+        .weightage-cell {
+            background-color: #f8f9fa;
+            padding: 5px;
+            border-right: 1px solid #dee2e6;
+            width: 25%;
+            position: sticky;
+            left: 0;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .university-cell {
+            padding: 5px;
+            text-align: center;
+            border-right: 1px solid #dee2e6;
+            width: 22% !important;
+        }
+        
+        .university-header-cell {
+            padding: 5px;
+            text-align: center;
+            border-right: 1px solid #dee2e6;
+            width: 25%;
+            flex-shrink: 0;
+            position: relative;
+            background-color: #f8f9fa;
+            z-index: 5;
+        }
+        
+        .university-name-input {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #ced4da;
+            font-weight: 600;
+            text-align: center;
+            font-size: 1rem;
+        }
+        
+        .university-name-input:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+        
+        .total-score {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .criteria-row {
+            border-bottom: 1px solid #e9ecef;
+            transition: background-color 0.2s;
+            display: flex;
+			align-items: center;
+        }
+        
+        .criteria-row:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .criteria-cell {
+            padding: 5px;
+            border-right: 1px solid #e9ecef;
+		
+            vertical-align: middle;
+            width: 30%;
+            position: sticky;
+            left: 0;
+            background-color: white;
+            z-index: 1;
+        }
+        
+        .criteria-content {
+            min-height: 10px;
+        }
+        
+        .criteria-label {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        
+        .criteria-description {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+        
+        .weightage-select {
+            width: 45px;
+            padding: 3px;
+            border-radius: 4px;
+            border: 0px solid #ced4da;
+            background-color: white;
+            font-size: 0.9rem;
+			color: var(--danger-color);
+        }
+        
+        .select-box {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #ced4da;
+            background-color: white;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        
+        .select-box:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+        
+        .footer-note {
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 30px;
+            padding-top: 10px;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .category-badge {
+            display: inline-block;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-right: 6px;
+        }
+        
+        .category-career { background-color: #e8f5e9; color: #2e7d32; }
+        .category-cultural { background-color: #fff3e0; color: #ef6c00; }
+        .category-admission { background-color: #f3e5f5; color: #7b1fa2; }
+        .category-financial { background-color: #e3f2fd; color: #1565c0; }
+        
+        .table-scroll-container {
+            overflow-x: auto;
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+        
+        .sort-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .sort-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        
+        .sort-select {
+            padding: 6px 10px;
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+            background-color: white;
+            font-size: 0.85rem;
+        }
+        
+        .type-weight-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .type-label {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 0.85rem;
+        }
+        
+        .total-weight-display {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #dee2e6;
+            font-size: 0.85rem;
+        }
+        
+        .total-weight-label {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .total-weight-value {
+            font-weight: 700;
+            margin-left: 5px;
+        }
+        
+        .total-weight-100 {
+            color: var(--success-color);
+        }
+        
+        .total-weight-not-100 {
+            color: var(--danger-color);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 5px 3px;
+            }
+            
+            .header-container {
+                padding: 5px;
+            }
+            
+            .criteria-label {
+                font-size: 0.9rem;
+            }
+            
+            .select-box {
+                padding: 6px 8px;
+                font-size: 0.85rem;
+            }
+            
+            .total-score {
+                font-size: 1.0rem;
+            }
+            
+            .type-weight-container {
+                gap: 6px;
+            }
+        }
+		
+		@media (max-height: 500px) {
+			html, body {
+				height: 100%;
+			}
+		}
+		
+		  @media print {
+            .no-print, .export-controls {
+                display: none !important;
+            }
+            
+            body {
+                font-size: 12px;
+                background: white !important;
+                color: black !important;
+            }
+            
+            .comparison-table {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+            }
+            
+            .university-name-input {
+                border: none !important;
+                background: transparent !important;
+                box-shadow: none !important;
+            }
+            
+            select {
+                border: none !important;
+                background: transparent !important;
+                appearance: none !important;
+                -webkit-appearance: none !important;
+                -moz-appearance: none !important;
+            }
+            
+            .select-box {
+                border: none !important;
+                padding: 0 !important;
+                background: transparent !important;
+            }
+            
+            .sort-select, .weightage-select {
+                border: none !important;
+                background: transparent !important;
+            }
+            
+            .total-score {
+                color: black !important;
+            }
+        }
+        
+        /* Export controls */
+        .export-controls {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .export-btn {
+            margin: 0 5px;
+            min-width: 140px;
+        }
+    </style>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        const universityCount = 4;
+		
+		const categoryMap = {
+            'career': { name: 'Career', class: 'category-career', order: 1 },
+            'cultural': { name: 'Cultural', class: 'category-cultural', order: 2 },
+            'admission': { name: 'Admission', class: 'category-admission', order: 3 },
+            'financial': { name: 'Financial', class: 'category-financial', order: 4 }
+        };
+		
+        const defaultCriteria = [
+            {
+                id: 1,
+                name: "Job Prospects after Degree",
+                weight: 10,
+                description: "Employment rate of graduates within some months of completion of program.",
+                category: "career",
+                options: [
+                    { value: 10, label: "High (>90% employment)" },
+                    { value: 8, label: "Good (>75% employment)" },
+                    { value: 5, label: "Moderate (>60% employment)" },
+                    { value: 3, label: "Low (>40% employment)" },
+                    { value: 0, label: "Very Low (<30% employment)" }
+                ]
+            },
+            {
+                id: 2,
+                name: "Post-Degree Stay Options",
+                weight: 7,
+                description: "Possibiliy of staying wihin that area after the program finishes.",
+                category: "career",
+                options: [
+                    { value: 10, label: "Pathway to permanent residency" },
+                    { value: 7, label: "Multiple stay/work options" },
+                    { value: 4, label: "Reasonable stay for job search" },
+                    { value: 2, label: "Short stay for job search" },
+                    { value: 0, label: "Stay allowed with job only" }
+                ]
+            },
+            {
+                id: 3,
+                name: "Country's Visa & Travel Policy",
+                weight: 6,
+                description: "Student visa process and feasibility of personal and family traveling.",
+                category: "cultural",
+                options: [
+                    { value: 10, label: "Very Easy (friendly, flexible)" },
+                    { value: 7, label: "Easy (moderate like most countries)" },
+                    { value: 4, label: "Rules-based (strict but clear)" },
+                    { value: 0, label: "Very strict visa policy" }
+                ]
+            },
+            
+            {
+                id: 4,
+                name: "Global Recognition",
+                weight: 7,
+                description: "How other countries, students, researchers and institutes see this institute for this program.",
+                category: "career",
+                options: [
+                    { value: 10, label: "Very Popular" },
+                    { value: 7, label: "Popular" },
+                    { value: 4, label: "Well-known" },
+                    { value: 2, label: "Recognized" },
+                    { value: 0, label: "Mostly Local" }
+                ]
+            },
+            {
+                id: 5,
+                name: "Practice w.r.t. My Religion",
+                weight: 7,
+                description: "Freedom and facilities for my religious practices.",
+                category: "cultural",
+                options: [
+                    { value: 10, label: "My religion is majority" },
+                    { value: 7, label: "Freely allowed to practice" },
+                    { value: 3, label: "Allowed with some restrictions" },
+                    { value: 0, label: "Hard to practice my religion" }
+                ]
+            },
+            {
+                id: 6,
+                name: "Local Culture w.r.t. My upbringing",
+                weight: 6,
+                description: "How much is the culture acceptable for me.",
+                category: "cultural",
+                options: [
+                    { value: 10, label: "Culture familiar to me" },
+                    { value: 7, label: "Culture acceptable for me" },
+                    { value: 3, label: "Culture has some issues for me" },
+                    { value: 0, label: "Culture not aligned with me" }
+                ]
+            },
+            {
+                id: 7,
+                name: "Safety & Quality of Life",
+                weight: 4,
+                description: "Personal safety and living standards.",
+                category: "cultural",
+                options: [
+                    { value: 10, label: "Very Safe" },
+                    { value: 7, label: "Generally Safe" },
+                    { value: 4, label: "Low Security concerns" },
+                    { value: 0, label: "Risky/Safety concerns" }
+                ]
+            },
+            
+            {
+                id: 8,
+                name: "Global Rank",
+                weight: 5,
+                description: "As a combined average where the university stands for QS, THE and other ranks.",
+                category: "career",
+                options: [
+                    { value: 10, label: "Top 100 worldwide" },
+                    { value: 8, label: "Top 300 worldwide" },
+                    { value: 6, label: "Top 600 worldwide" },
+                    { value: 4, label: "Top 1000 worldwide" },
+                    { value: 2, label: "Top 2000 worldwide" },
+                    { value: 0, label: "Beyond 2000" }
+                ]
+            },
+            {
+                id: 9,
+                name: "Admission Criteria",
+                weight: 5,
+                description: "Competitiveness and requirements",
+                category: "admission",
+                options: [
+                    { value: 10, label: "Very Competitive (high marks/SAT)" },
+                    { value: 7, label: "Competitive (good marks/SAT)" },
+                    { value: 4, label: "Moderate (decent marks/scores)" },
+                    { value: 0, label: "Easy" }
+                ]
+            },
+            {
+                id: 10,
+                name: "Admission Success Rate",
+                weight: 5,
+                description: "Likelihood of getting accepted",
+                category: "admission",
+                options: [
+                    { value: 10, label: "Highly selective (<20% acceptance)" },
+                    { value: 7, label: "Selective (20-40% acceptance)" },
+                    { value: 4, label: "Moderate (40-60% acceptance)" },
+                    { value: 0, label: "High acceptance (>60%)" }
+                ]
+            },
+            {
+                id: 11,
+                name: "Scholarship Availability",
+                weight: 5,
+                description: "Availability of financial aid to reduce the cost.",
+                category: "financial",
+                options: [
+                    { value: 10, label: "High chance of scholarship" },
+                    { value: 7, label: "Moderate chance of scholarship" },
+                    { value: 3, label: "Scholarships not common/unclear" },
+                    { value: 0, label: "No scholarships available" }
+                ]
+            },
+            {
+                id: 12,
+                name: "Degree Duration",
+                weight: 3,
+                description: "Typical program length in years.",
+                category: "admission",
+                options: [
+                    { value: 10, label: "3 Years" },
+                    { value: 5, label: "4 Years" },
+                    { value: 0, label: "5 Years" }
+                ]
+            },
+            
+            {
+                id: 13,
+                name: "Tuition Fee",
+                weight: 8,
+                description: "Total tuition cost for entire program.",
+                category: "financial",
+                options: [
+                    { value: 8, label: "$10,000" },
+                    { value: 7, label: "$15,000" },
+                    { value: 6, label: "$22,000" },
+                    { value: 5, label: "$30,000" },
+                    { value: 4, label: "$40,000" },
+                    { value: 3, label: "$52,000" },
+                    { value: 2, label: "$65,000" },
+                    { value: 1, label: "$80,000" },
+                    { value: 0, label: "$95,000" }
+                ]
+            },
+            {
+                id: 14,
+                name: "Accommodation",
+                weight: 5,
+                description: "Housing / Hostel costs for entire program duration incl. rent, electricity, water, internet.",
+                category: "financial",
+                options: [
+                    { value: 10, label: "$0" },
+                    { value: 8, label: "$8,000" },
+                    { value: 6, label: "$15,000" },
+                    { value: 4, label: "$24,000" },
+                    { value: 2, label: "$35,000" },
+                    { value: 0, label: "$50,000" }
+                ]
+            },
+            {
+                id: 15,
+                name: "Living Expenses",
+                weight: 5,
+                description: "Living costs for entire program incl. food, maneuvering, phone, clothing. ",
+                category: "financial",
+                options: [
+                    { value: 10, label: "$0" },
+                    { value: 8, label: "$8,000" },
+                    { value: 6, label: "$15,000" },
+                    { value: 4, label: "$24,000" },
+                    { value: 2, label: "$35,000" },
+                    { value: 0, label: "$50,000" }
+                ]
+            },
+            {
+                id: 16,
+                name: "Other Fees",
+                weight: 3,
+                description: "Additional academic fees for complete program like examination, admission, security, library, books etc.",
+                category: "financial",
+                options: [
+                    { value: 10, label: "$1,000" },
+                    { value: 8, label: "$1,600" },
+                    { value: 6, label: "$2,500" },
+                    { value: 4, label: "$3,500" },
+                    { value: 2, label: "$5,000" },
+                    { value: 0, label: "$7,000" }
+                ]
+            },
+            {
+                id: 17,
+                name: "Health Insurance & Medical",
+                weight: 3,
+                description: "Health coverage for complete program.",
+                category: "financial",
+                options: [
+                    { value: 10, label: "$0" },
+                    { value: 7, label: "$300" },
+                    { value: 5, label: "$600" },
+                    { value: 3, label: "$1,000" },
+                    { value: 1, label: "$1,500" },
+                    { value: 0, label: "$2,200" }
+                ]
+            },
+            {
+                id: 18,
+                name: "Return Air Ticket Cost",
+                weight: 3,
+                description: "Round trip for the country where family staying as it will need multiple travels.",
+                category: "financial",
+                options: [
+                    { value: 10, label: "$0" },
+                    { value: 8, label: "$250" },
+                    { value: 6, label: "$400" },
+                    { value: 4, label: "$650" },
+                    { value: 2, label: "$1,000" },
+                    { value: 0, label: "$1,400" }
+                ]
+            },
+            {
+                id: 19,
+                name: "Part-Time Work during Studies",
+                weight: 3,
+                description: "Work opportunities while studying.",
+                category: "financial",
+                options: [
+                    { value: 10, label: "Easily available (20+ hrs/week)" },
+                    { value: 7, label: "Limited (10-20 hrs/week)" },
+                    { value: 3, label: "Difficult to find (<10 hrs/week)" },
+                    { value: 0, label: "No work allowed" }
+                ]
+            }
+        ];
+
+        let criteria = JSON.parse(JSON.stringify(defaultCriteria));
+        let universities = [];
+		let currentSortMethod = 'category';
+	</script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="header-container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 style="font-size: 1.8rem;"><i class="fas fa-university"></i> Universities Comparison Tool
+					<button onclick="exportToHTML()" class="btn btn-info export-btn">
+						<i class="fas fa-code"></i> Export to HTML
+					</button>
+					</h1>
+                    <p class="mb-0" style="font-size: 0.95rem;">Compare 4 universities based on your priorities. Adjust weightages and select options to calculate scores.</p>
+					
+                </div>
+            </div>
+        </div>
+        <div class="comparison-table">
+            <div class="table-header-container">
+                <div class="table-header">
+                    <div class="weightage-cell" id="criteriaHeader">
+                        <div>
+                            <div class="sort-controls">
+                                <span class="sort-label">Sort By:</span>
+                                <select class="sort-select" id="sortMethod">
+                                    <option value="weight">Weight</option>
+                                    <option value="category" selected>Category</option>
+                                </select>
+                            </div>
+                            <div class="total-weight-display">
+                                <span class="total-weight-label">Total Weight:</span>
+                                <span id="totalWeight" class="total-weight-value total-weight-100">100</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="universityHeaders" style="display: flex; flex: 1;">
+                    </div>
+                </div>
+            </div>
+            <div class="table-scroll-container">
+                <div id="criteriaContainer">
+                </div>
+            </div>
+        </div>
+        <div class="footer-note">
+            <p><i class="fas fa-info-circle"></i> Adjust weightages to reflect your priorities. Select options for each university to calculate scores.</p>
+        </div>
+    </div>
+        </div>
+    </div>
+    <script>
+        function initializeUniversities() {
+            universities = [];
+            for (let i = 0; i < 4; i++) {
+                universities.push({
+                    id: i + 1,
+                    name: `University ${String.fromCharCode(65 + i)}`,
+                    scores: {},
+                    totalScore: 0
+                });
+            }
+        }
+		
+        function initializePage() {
+            initializeUniversities();
+            renderUniversityHeaders();
+            sortAndRenderCriteria();
+            updateTotalWeight();
+            calculateAllScores();
+            syncHeaderScroll();
+        }
+		
+        function renderUniversityHeaders() {
+            const container = document.getElementById('universityHeaders');
+            container.innerHTML = '';
+            
+            universities.forEach((uni, index) => {
+                const header = document.createElement('div');
+                header.className = 'university-header-cell';
+                header.innerHTML = `
+                    <input type="text" 
+                           class="university-name-input mb-2" 
+                           value="${uni.name}" 
+                           data-university="${uni.id}"
+                           placeholder="University Name">
+                    <div class="total-score" id="score-${uni.id}">0</div>
+                `;
+                container.appendChild(header);
+            });
+			
+            document.querySelectorAll('.university-name-input').forEach(input => {
+                input.addEventListener('input', function() {
+                    const uniId = parseInt(this.getAttribute('data-university'));
+                    const uni = universities.find(u => u.id === uniId);
+                    if (uni) {
+                        uni.name = this.value;
+                    }
+                });
+            });
+        }
+		
+        function sortCriteria() {
+            if (currentSortMethod === 'weight') {
+                criteria.sort((a, b) => {
+                    if (b.weight !== a.weight) {
+                        return b.weight - a.weight;
+                    }
+                    if (categoryMap[a.category].order !== categoryMap[b.category].order) {
+                        return categoryMap[a.category].order - categoryMap[b.category].order;
+                    }
+                    return a.name.localeCompare(b.name);
+                });
+            } else if (currentSortMethod === 'category') {
+                criteria.sort((a, b) => {
+                    if (categoryMap[a.category].order !== categoryMap[b.category].order) {
+                        return categoryMap[a.category].order - categoryMap[b.category].order;
+                    }
+                    if (b.weight !== a.weight) {
+                        return b.weight - a.weight;
+                    }
+                    return a.name.localeCompare(b.name);
+                });
+            }
+        }
+		
+        function sortAndRenderCriteria() {
+            sortCriteria();
+            renderCriteria();
+        }
+		
+        function renderCriteria() {
+            const container = document.getElementById('criteriaContainer');
+            container.innerHTML = '';
+            
+            criteria.forEach(criterion => {
+                const row = document.createElement('div');
+                row.className = 'criteria-row';
+                row.id = `criteria-${criterion.id}`;
+                
+                // Criteria column (fixed, sticky)
+                const criteriaCol = document.createElement('div');
+                criteriaCol.className = 'criteria-cell';
+                criteriaCol.innerHTML = `
+                    <div class="criteria-content">
+                        <div class="type-weight-container">
+                            <div>
+                                <span class="type-label">Type:</span>
+                                <span class="category-badge ${categoryMap[criterion.category].class}">
+                                    ${categoryMap[criterion.category].name}
+                                </span>
+                            </div>
+                            <div>
+                                <span class="type-label">Weight:</span>
+                                <select class="weightage-select" data-criteria="${criterion.id}">
+                                    ${Array.from({length: 16}, (_, i) => 
+                                        `<option value="${i}" ${criterion.weight === i ? 'selected' : ''}>${i}</option>`
+                                    ).join('')}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="criteria-label">${criterion.name}</div>
+                        <div class="criteria-description">${criterion.description}</div>
+                    </div>
+                `;
+                row.appendChild(criteriaCol);
+                
+                universities.forEach(uni => {
+                    const selectId = `select-${criterion.id}-${uni.id}`;
+                    const uniCol = document.createElement('div');
+                    uniCol.className = 'criteria-cell university-cell';
+                    
+                    // Get current value for this university and criterion
+                    const currentValue = uni.scores[criterion.id] !== undefined ? uni.scores[criterion.id] : '-1';
+                    
+                    uniCol.innerHTML = `
+                        <select class="select-box" id="${selectId}" data-criteria="${criterion.id}" data-university="${uni.id}">
+                            <option value="">Select...</option>
+                            ${criterion.options.map(opt => 
+                                `<option value="${opt.value}" ${currentValue == opt.value ? 'selected' : ''}>${opt.label}</option>`
+                            ).join('')}
+                        </select>
+                    `;
+                    row.appendChild(uniCol);
+                });
+                
+                container.appendChild(row);
+                
+                // Add event listener for weight change
+                const weightSelect = criteriaCol.querySelector(`select.weightage-select[data-criteria="${criterion.id}"]`);
+                weightSelect.addEventListener('change', function() {
+                    updateCriteriaWeight(criterion.id, parseInt(this.value));
+                });
+                
+                // Add event listeners for university select changes
+                const selectElements = row.querySelectorAll(`select[data-criteria="${criterion.id}"]`);
+                selectElements.forEach(select => {
+                    select.addEventListener('change', function() {
+                        const criteriaId = parseInt(this.getAttribute('data-criteria'));
+                        const uniId = parseInt(this.getAttribute('data-university'));
+                        const value = this.value === "" ? 0 : parseInt(this.value);
+                        updateUniversityScore(criteriaId, uniId, value);
+                    });
+                });
+            });
+        }
+		
+        function updateCriteriaWeight(criteriaId, newWeight) {
+            const criterion = criteria.find(c => c.id === criteriaId);
+            if (criterion) {
+                criterion.weight = newWeight;
+                updateTotalWeight();
+                sortAndRenderCriteria();
+            }
+        }
+		
+        function updateUniversityScore(criteriaId, uniId, selectedValue) {
+            const uni = universities.find(u => u.id === uniId);
+            const criterion = criteria.find(c => c.id === criteriaId);
+            
+            if (uni && criterion) {
+                uni.scores[criteriaId] = selectedValue;
+                calculateUniversityTotalScore(uni);
+            }
+        }
+		
+        function calculateUniversityTotalScore(university) {
+            let total = 0;
+            
+            criteria.forEach(criterion => {
+                const score = university.scores[criterion.id] || 0;
+                const weightedScore = score * (criterion.weight / 10);
+                total += weightedScore;
+            });
+			
+            university.totalScore = Math.round(total);
+            updateUniversityScoreDisplay(university.id);
+        }
+		
+        function calculateAllScores() {
+            universities.forEach(uni => {
+                calculateUniversityTotalScore(uni);
+            });
+        }
+		
+        function updateUniversityScoreDisplay(uniId) {
+            const uni = universities.find(u => u.id === uniId);
+            if (uni) {
+                const scoreElement = document.getElementById(`score-${uniId}`);
+                if (scoreElement) {
+                    scoreElement.textContent = uni.totalScore;
+                    
+                    // Color code based on score
+                    const percentage = (uni.totalScore / 100) * 100;
+                    if (percentage >= 80) {
+                        scoreElement.style.color = 'var(--success-color)';
+                    } else if (percentage >= 60) {
+                        scoreElement.style.color = 'var(--warning-color)';
+                    } else {
+                        scoreElement.style.color = 'var(--danger-color)';
+                    }
+                }
+            }
+        }
+		
+        function updateTotalWeight() {
+            const totalWeight = criteria.reduce((sum, criterion) => sum + criterion.weight, 0);
+            const totalWeightElement = document.getElementById('totalWeight');
+            
+            totalWeightElement.textContent = totalWeight;
+            
+            if (totalWeight === 100) {
+                totalWeightElement.className = 'total-weight-value total-weight-100';
+            } else {
+                totalWeightElement.className = 'total-weight-value total-weight-not-100';
+            }
+        }
+		
+        function syncHeaderScroll() {
+            const scrollContainer = document.querySelector('.table-scroll-container');
+            const headerContainer = document.querySelector('.table-header-container');
+            
+            if (scrollContainer && headerContainer) {
+                scrollContainer.addEventListener('scroll', function() {
+                    headerContainer.scrollLeft = this.scrollLeft;
+                });
+            }
+        }
+		
+        function exportToHTML() {
+            const htmlContent = `
+			<!DOCTYPE html>
+			<html>
+			<head>
+				<title>University Comparison Report</title>
+				<style>
+					th { background-color: #f8f9fa; color: #2c3e50; padding: 5px; text-align: center; border: 1px solid #ddd; }
+					td { padding: 5px; border: 1px solid #ddd; }
+				</style>
+			</head>
+			<body style="font-family: Arial, sans-serif; margin: 10px;">
+				<h1 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 5px;">University Comparison Report</h1>
+				<div style="color: #666; margin-bottom: 20px;">
+					Generated on: ${new Date().toLocaleString()}
+				</div>
+				<table style="width: 100%; border-collapse: collapse; margin: 10px 0;">
+					<thead>
+						<tr>
+							<th style="text-align: left; width:28%">Compared Values: ${criteria.length}<br>Total Score: ${criteria.reduce((sum, c) => sum + c.weight, 0)}</th>
+							${universities.map(uni => `<th style="width:18%">${uni.name}<br>Score: ${uni.totalScore}</th>`).join('')}
+						</tr>
+					</thead>
+					<tbody>
+						${criteria.map(crit => `
+						<tr style="height: 70px;">
+							<td><strong>${crit.name}</strong><br><small>${crit.description}</small></td>
+							${universities.map(uni => {
+								const score = uni.scores[crit.id] !== undefined ? uni.scores[crit.id] : -1;
+								const option = crit.options.find(opt => opt.value == score);
+								if(option){
+									const percentage = score / 10;
+									let red, green;
+									if (percentage <= 0.5) {
+										red = 255;
+										green = Math.floor(255 * (percentage * 2));
+									} else {
+										red = Math.floor(255 * (2 - percentage * 2));
+										green = 128 + Math.floor(127 * (percentage * 2 - 1));
+									}
+									const backgroundColor = `rgb(${red}, ${green}, 0)`;
+									const brightness = (red * 299 + green * 587 + 0 * 114) / 1000;
+									const textColor = brightness > 128 ? '#000000' : '#ffffff';
+									return `<td style="padding: 5px; border-radius: 4px; text-align: center; background-color: ${backgroundColor}; color: ${textColor};">${option.label}</td>`;
+								} else {
+									return `<td style="padding: 8px; border-radius: 4px;"></td>`;
+								}
+							}).join('')}
+						</tr>
+						`).join('')}
+					</tbody>
+				</table>
+			</body>
+			</html>`;
+			
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `University_Comparison_${new Date().getTime()}.html`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        document.getElementById('sortMethod').addEventListener('change', function() {
+            currentSortMethod = this.value;
+            sortAndRenderCriteria();
+        });
+		
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html>
