@@ -1,0 +1,341 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --light-color: #ecf0f1;
+    --dark-color: #2c3e50;
+}
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 10px 6px;
+}
+
+.header-container {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.comparison-table {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 25px;
+    overflow-x: auto;
+}
+
+.table-header-container {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background-color: #f8f9fa;
+}
+
+.table-header {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+    display: flex;
+    
+    position: relative;
+}
+
+.weightage-cell {
+    background-color: #f8f9fa;
+    padding: 5px;
+    border-right: 1px solid #dee2e6;
+    position: sticky;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.university-cell {
+    padding: 5px;
+    text-align: center;
+    border-right: 1px solid #dee2e6;
+}
+
+.university-header-cell {
+    padding: 5px;
+    text-align: center;
+    border-right: 1px solid #dee2e6;
+    flex-shrink: 0;
+    position: relative;
+    background-color: #f8f9fa;
+    z-index: 5;
+}
+
+.university-name-input {
+    padding: 4px 6px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    font-weight: 600;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.university-name-input:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+}
+
+.total-score {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.criteria-row {
+    border-bottom: 1px solid #e9ecef;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.criteria-row:hover {
+    background-color: #f8f9fa;
+}
+
+.criteria-cell {
+    padding: 5px;
+    border-right: 1px solid #e9ecef;
+    vertical-align: middle;
+    position: sticky;
+    left: 0;
+    background-color: white;
+    z-index: 1;
+}
+
+.criteria-content {
+    min-height: 10px;
+}
+
+.criteria-label {
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.criteria-description {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 10px;
+}
+
+.weightage-select {
+    width: 45px;
+    padding: 3px;
+    border-radius: 4px;
+    border: 0px solid #ced4da;
+    background-color: white;
+    font-size: 0.9rem;
+    color: var(--danger-color);
+}
+
+.select-box {
+    padding: 4px 4px;
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    background-color: white;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+}
+
+.select-box:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+}
+
+.footer-note {
+    text-align: center;
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-top: 30px;
+    padding-top: 10px;
+    border-top: 1px solid #dee2e6;
+}
+
+.category-badge {
+    display: inline-block;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-right: 6px;
+}
+
+.category-career { background-color: #e8f5e9; color: #2e7d32; }
+.category-cultural { background-color: #fff3e0; color: #ef6c00; }
+.category-admission { background-color: #f3e5f5; color: #7b1fa2; }
+.category-financial { background-color: #e3f2fd; color: #1565c0; }
+
+.table-scroll-container {
+    overflow-x: auto;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+.sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.sort-label {
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.sort-select {
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    background-color: white;
+    font-size: 0.85rem;
+}
+
+.type-weight-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.type-label {
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 0.85rem;
+}
+
+.total-weight-display {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #dee2e6;
+    font-size: 0.85rem;
+}
+
+.total-weight-label {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.total-weight-value {
+    font-weight: 700;
+    margin-left: 5px;
+}
+
+.total-weight-100 {
+    color: var(--success-color);
+}
+
+.total-weight-not-100 {
+    color: var(--danger-color);
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 5px 3px;
+    }
+    
+    .header-container {
+        padding: 5px;
+    }
+    
+    .criteria-label {
+        font-size: 0.9rem;
+    }
+    
+    .select-box {
+        padding: 2px 2px;
+        font-size: 0.85rem;
+    }
+    
+    .total-score {
+        font-size: 1.0rem;
+    }
+    
+    .type-weight-container {
+        gap: 6px;
+    }
+}
+
+@media (max-height: 500px) {
+    html, body {
+        height: 100%;
+    }
+}
+
+    @media print {
+    .no-print, .export-controls {
+        display: none !important;
+    }
+    
+    body {
+        font-size: 12px;
+        background: white !important;
+        color: black !important;
+    }
+    
+    .comparison-table {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+    }
+    
+    .university-name-input {
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+    
+    select {
+        border: none !important;
+        background: transparent !important;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+    }
+    
+    .select-box {
+        border: none !important;
+        padding: 0 !important;
+        background: transparent !important;
+    }
+    
+    .sort-select, .weightage-select {
+        border: none !important;
+        background: transparent !important;
+    }
+    
+    .total-score {
+        color: black !important;
+    }
+}
+
+/* Export controls */
+.export-controls {
+    text-align: center;
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.export-btn {
+    margin: 0 5px;
+    width: 180px;
+}
