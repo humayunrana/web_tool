@@ -21,12 +21,15 @@
         <div class="header-container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 style="font-size: 1.8rem;"><i class="fas fa-university"></i> Universities Comparison Tool
-					<button onclick="exportToHTML()" class="btn btn-info export-btn">
-						<i class="fas fa-code"></i> Export to HTML
-					</button>
-					</h1>
-                    <p class="mb-0" style="font-size: 0.95rem;">Compare universities based on your priorities. Adjust weightages and select options to calculate scores.</p>
+                    <h1 style="font-size: 1.8rem;"><i class="fas fa-university"></i>Universities Comparison</h1>
+                    <ol>
+                        <li>First column contains the values one usually see while chooosing a university.</li>
+                        <li>'Weight' means how much this value is important, it effects the score.</li>
+                        <li>As you change the weightage the list is sorted automatically from High to Low.</li>
+                        <li>Once the weightage is set then start selecting/applying the values for each university.</li>
+                        <li>Selecting any value updates the score for that university.</li>
+                        <li>Once the form is complete then <button onclick="exportToHTML()" class="btn btn-info btn-sm" style="padding: 2px 4px; vertical-align: baseline;">Export to HTML</button> to get simple, clean and print friendly.</li>
+                    </ol>
                 </div>
             </div>
         </div>
@@ -56,9 +59,6 @@
                 <div id="criteriaContainer">
                 </div>
             </div>
-        </div>
-        <div class="footer-note">
-            <p><i class="fas fa-info-circle"></i> Adjust weightages to reflect your priorities. Select options for each university to calculate scores.</p>
         </div>
     </div>
         </div>

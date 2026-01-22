@@ -191,9 +191,9 @@ function updateUniversityScoreDisplay(uniId) {
         if (scoreElement) {
             scoreElement.textContent = uni.totalScore;
             const percentage = (uni.totalScore / 100) * 100;
-            if (percentage >= 80) {
+            if (percentage >= 75) {
                 scoreElement.style.color = 'var(--success-color)';
-            } else if (percentage >= 60) {
+            } else if (percentage >= 50) {
                 scoreElement.style.color = 'var(--warning-color)';
             } else {
                 scoreElement.style.color = 'var(--danger-color)';

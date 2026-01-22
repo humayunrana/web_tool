@@ -183,7 +183,7 @@ body {
 
 .table-scroll-container {
     overflow-x: auto;
-    max-height: 50vh;
+    max-height: 45vh;
     overflow-y: auto;
 }
 
@@ -271,71 +271,4 @@ body {
     .type-weight-container {
         gap: 6px;
     }
-}
-
-@media (max-height: 500px) {
-    html, body {
-        height: 100%;
-    }
-}
-
-    @media print {
-    .no-print, .export-controls {
-        display: none !important;
-    }
-    
-    body {
-        font-size: 12px;
-        background: white !important;
-        color: black !important;
-    }
-    
-    .comparison-table {
-        box-shadow: none !important;
-        border: 1px solid #ddd !important;
-    }
-    
-    .university-name-input {
-        border: none !important;
-        background: transparent !important;
-        box-shadow: none !important;
-    }
-    
-    select {
-        border: none !important;
-        background: transparent !important;
-        appearance: none !important;
-        -webkit-appearance: none !important;
-        -moz-appearance: none !important;
-    }
-    
-    .select-box {
-        border: none !important;
-        padding: 0 !important;
-        background: transparent !important;
-    }
-    
-    .sort-select, .weightage-select {
-        border: none !important;
-        background: transparent !important;
-    }
-    
-    .total-score {
-        color: black !important;
-    }
-}
-
-/* Export controls */
-.export-controls {
-    text-align: center;
-    margin: 20px 0;
-    padding: 15px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.export-btn {
-    margin: 0 5px;
-    width: 180px;
 }
