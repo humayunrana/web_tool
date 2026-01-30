@@ -1,7 +1,28 @@
-const universityCount = 3;
+let universityCount = 2;
+const criteria_header_cell_width = [ 100, 66, 50, 40, 34, 30, 28 ];
 let currentSortMethod = 'category';
 let criteria = JSON.parse(JSON.stringify(defaultCriteria));
 let universities = [];
+
+function initializePage() {
+    initVariables();
+    initializeUniversities();
+    renderUniversityHeaders();
+    sortCriteria();
+    renderCriteria();
+    updateTotalWeight();
+    calculateAllScores();
+    syncHeaderScroll();
+}
+
+function initVariables(){
+    let count = parseInt(new URLSearchParams(window.location.search).get("count") ?? "2", 10);
+    if( isNaN(count) ) {
+        universityCount = 2;
+    } else {
+        universityCount = (count < 1) ? 1 : ( (count > 6) ? 6 : count );
+    }
+}
 
 function initializeUniversities() {
     universities = [];
@@ -15,24 +36,16 @@ function initializeUniversities() {
     }
 }
 
-function initializePage() {
-    initializeUniversities();
-    renderUniversityHeaders();
-    sortCriteria();
-    renderCriteria();
-    updateTotalWeight();
-    calculateAllScores();
-    syncHeaderScroll();
-}
-
 function renderUniversityHeaders() {
-    const container = document.getElementById('universityHeaders');
-    container.innerHTML = '';
+    const criteriaHeader = document.getElementById('criteriaHeader');
+    criteriaHeader.style.width = ((criteria_header_cell_width[universityCount]) + '%');
+    const universityHeaders = document.getElementById('universityHeaders');
+    universityHeaders.innerHTML = '';
     
     universities.forEach((uni, index) => {
         const header = document.createElement('div');
         header.className = 'university-header-cell';
-        header.style.width= '33%';
+        header.style.width= ((100/universityCount) + '%');
         header.innerHTML = `
             <input type="text" 
                     class="university-name-input mb-2" 
@@ -42,7 +55,7 @@ function renderUniversityHeaders() {
                     placeholder="University Name">
             <div class="total-score" id="score-${uni.id}">0</div>
         `;
-        container.appendChild(header);
+        universityHeaders.appendChild(header);
     });
     
     document.querySelectorAll('.university-name-input').forEach(input => {
@@ -89,7 +102,7 @@ function renderCriteria() {
         row.id = `criteria-${criterion.id}`;
         const criteriaCol = document.createElement('div');
         criteriaCol.className = 'criteria-cell';
-        criteriaCol.style.width = '40%';
+        criteriaCol.style.width = ((criteria_header_cell_width[universityCount]) + '%');
         criteriaCol.innerHTML = `
             <div class="criteria-content">
                 <div class="type-weight-container">
@@ -101,7 +114,7 @@ function renderCriteria() {
                     </div>
                     <div>
                         <span class="type-label">Weight:</span>
-                        <select class="weightage-select" data-criteria="${criterion.id}">
+                        <select class="weightage-select" style="width: 45px; padding: 3px;" data-criteria="${criterion.id}">
                             ${Array.from({length: 16}, (_, i) => 
                                 `<option value="${i}" ${criterion.weight === i ? 'selected' : ''}>${i}</option>`
                             ).join('')}
@@ -118,7 +131,7 @@ function renderCriteria() {
             const selectId = `select-${criterion.id}-${uni.id}`;
             const uniCol = document.createElement('div');
             uniCol.className = 'criteria-cell university-cell';
-            uniCol.style.width = '20%';
+            uniCol.style.width = ((100-criteria_header_cell_width[universityCount])/universityCount) + '%';
             const currentValue = uni.scores[criterion.id] !== undefined ? uni.scores[criterion.id] : '-1';
             uniCol.innerHTML = `
                 <select class="select-box" style="width: 100%;" id="${selectId}" data-criteria="${criterion.id}" data-university="${uni.id}">
@@ -242,8 +255,8 @@ function exportToHTML() {
         <table style="width: 100%; border-collapse: collapse; margin: 5px 0;">
             <thead>
                 <tr>
-                    <th style="text-align: left; width:40%">Compared Values: ${criteria.length}<br>Total Score: ${criteria.reduce((sum, c) => sum + c.weight, 0)}</th>
-                    ${universities.map(uni => `<th style="width:20%">${uni.name}<br><i>Score: ${uni.totalScore}</i></th>`).join('')}
+                    <th style="text-align: left; width:${criteria_header_cell_width[universityCount]}%">Compared Values: ${criteria.length}<br>Total Score: ${criteria.reduce((sum, c) => sum + c.weight, 0)}</th>
+                    ${universities.map(uni => `<th style="width:${((100-criteria_header_cell_width[universityCount])/universityCount)}%">${uni.name}<br><i>Score: ${uni.totalScore}</i></th>`).join('')}
                 </tr>
             </thead>
             <tbody>

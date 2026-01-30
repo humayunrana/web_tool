@@ -30,6 +30,7 @@ const defaultCriteria = [
             { value: 10, label: "Pathway to permanent residency" },
             { value: 7, label: "Multiple stay/work options" },
             { value: 4, label: "Reasonable stay for job search" },
+            { value: 3, label: "- I am already national -" },
             { value: 2, label: "Short stay for job search" },
             { value: 0, label: "Stay allowed with job only" }
         ]
@@ -41,13 +42,13 @@ const defaultCriteria = [
         description: "Student visa process and feasibility of personal and family traveling.",
         category: "cultural",
         options: [
-            { value: 10, label: "Very Easy (friendly, flexible)" },
-            { value: 7, label: "Easy (moderate like most countries)" },
-            { value: 4, label: "Rules-based (strict but clear)" },
+            { value: 10, label: "- I am already national -" },
+            { value: 9, label: "Very Easy (friendly, flexible)" },
+            { value: 6, label: "Easy (moderate like most countries)" },
+            { value: 3, label: "Rules-based (strict but clear)" },
             { value: 0, label: "Very strict visa policy" }
         ]
     },
-    
     {
         id: 4,
         name: "Global Recognition",
@@ -101,7 +102,6 @@ const defaultCriteria = [
             { value: 0, label: "Risky/Safety concerns" }
         ]
     },
-    
     {
         id: 8,
         name: "Global Rank",
@@ -109,12 +109,16 @@ const defaultCriteria = [
         description: "As a combined average where the university stands for QS, THE and other ranks.",
         category: "career",
         options: [
-            { value: 10, label: "Top 100 worldwide" },
-            { value: 8, label: "Top 300 worldwide" },
-            { value: 6, label: "Top 600 worldwide" },
-            { value: 4, label: "Top 1000 worldwide" },
-            { value: 2, label: "Top 2000 worldwide" },
-            { value: 0, label: "Beyond 2000" }
+            { value: 10, label: "Among Top 20 worldwide" },
+            { value: 9, label: "Among Top 50 worldwide" },
+            { value: 8, label: "Among Top 120 worldwide" },
+            { value: 7, label: "Among Top 200 worldwide" },
+            { value: 6, label: "Among Top 350 worldwide" },
+            { value: 5, label: "Among Top 500 worldwide" },
+            { value: 3, label: "Among Top 700 worldwide" },
+            { value: 2, label: "Among Top 1000 worldwide" },
+            { value: 1, label: "Among Top 1600 worldwide" },
+            { value: 0, label: "Low Ranking" }
         ]
     },
     {
@@ -164,11 +168,10 @@ const defaultCriteria = [
         category: "admission",
         options: [
             { value: 10, label: "3 Years" },
-            { value: 5, label: "4 Years" },
+            { value: 6, label: "4 Years" },
             { value: 0, label: "5 Years" }
         ]
     },
-    
     {
         id: 13,
         name: "Tuition Fee",
