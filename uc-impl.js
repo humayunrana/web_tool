@@ -1,5 +1,9 @@
-let universityCount = 2;
-const criteria_header_cell_width = [ 100, 66, 50, 40, 34, 30, 28 ];
+const DEFAULT_COUNT = 3;
+const MAX_COUNT = 9;
+const criteria_header_cell_width = [ 100, 50, 50, 40, 32, 30, 28, 23, 20, 19 ];
+const criteria_value_cell_width  = [ 100, 50, 25, 20, 17, 14, 12, 11, 10,  9 ];
+
+let universityCount = DEFAULT_COUNT;
 let currentSortMethod = 'category';
 let criteria = JSON.parse(JSON.stringify(defaultCriteria));
 let universities = [];
@@ -17,11 +21,11 @@ function initializePage() {
 
 function initVariables(){
     let url_param = new URLSearchParams(window.location.search);
-    let count = parseInt(url_param.get("count") ?? "2", 10);
+    let count = parseInt(url_param.get("count") ?? DEFAULT_COUNT, 10);
     if( isNaN(count) ) {
-        universityCount = 2;
+        universityCount = DEFAULT_COUNT;
     } else {
-        universityCount = (count < 1) ? 1 : ( (count > 6) ? 6 : count );
+        universityCount = (count < 1) ? 1 : ( (count > MAX_COUNT) ? MAX_COUNT : count );
     }
 }
 
@@ -47,7 +51,6 @@ function renderUniversityHeaders() {
         header.innerHTML = `
             <input type="text" 
                     class="university-name-input mb-2" 
-                    style="width: 100%;"
                     value="${uni.name}" 
                     data-university="${uni.id}"
                     placeholder="University Name">
@@ -131,10 +134,10 @@ function renderCriteria() {
             const selectId = `select-${criterion.id}-${uni.id}`;
             const uniCol = document.createElement('div');
             uniCol.className = 'criteria-cell university-cell';
-            uniCol.style.width = ((100-criteria_header_cell_width[universityCount])/universityCount) + '%';
+            uniCol.style.width = (criteria_value_cell_width[universityCount]) + '%';
             const currentValue = uni.scores[criterion.id] !== undefined ? uni.scores[criterion.id] : '-1';
             uniCol.innerHTML = `
-                <select class="select-box" style="width: 100%;" id="${selectId}" data-criteria="${criterion.id}" data-university="${uni.id}">
+                <select class="select-box" id="${selectId}" data-criteria="${criterion.id}" data-university="${uni.id}">
                     <option value="">Select...</option>
                     ${criterion.options.map(opt => 
                         `<option value="${opt.value}" ${currentValue == opt.value ? 'selected' : ''}>${opt.label}</option>`
@@ -256,7 +259,7 @@ function exportToHTML() {
             <thead>
                 <tr>
                     <th style="text-align: left; width:${criteria_header_cell_width[universityCount]}%">Compared Values: ${criteria.length}<br>Total Score: ${criteria.reduce((sum, c) => sum + c.weight, 0)}</th>
-                    ${universities.map(uni => `<th style="width:${((100-criteria_header_cell_width[universityCount])/universityCount)}%">${uni.name}<br><i>Score: ${uni.totalScore}</i></th>`).join('')}
+                    ${universities.map(uni => `<th style="width:${criteria_value_cell_width[universityCount]}%">${uni.name}<br><i>Score: ${uni.totalScore}</i></th>`).join('')}
                 </tr>
             </thead>
             <tbody>

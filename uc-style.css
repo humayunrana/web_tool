@@ -18,12 +18,13 @@ body {
     background-color: var(--primary-color);
     color: white;
     border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 25px;
+    padding: 10px;
+    margin-bottom: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .comparison-table {
+    width: 100%;
     background-color: white;
     border-radius: 8px;
     overflow: hidden;
@@ -40,18 +41,17 @@ body {
 }
 
 .table-header {
+    width: 100%;
     background-color: #f8f9fa;
     border-bottom: 2px solid #dee2e6;
     font-weight: 600;
     display: flex;
-    
     position: relative;
 }
 
 .weightage-cell {
     background-color: #f8f9fa;
     padding: 5px;
-    border-right: 1px solid #dee2e6;
     position: sticky;
     left: 0;
     z-index: 10;
@@ -67,9 +67,8 @@ body {
 }
 
 .university-header-cell {
-    padding: 5px;
+    padding: 2px;
     text-align: center;
-    border-right: 1px solid #dee2e6;
     flex-shrink: 0;
     position: relative;
     background-color: #f8f9fa;
@@ -77,7 +76,8 @@ body {
 }
 
 .university-name-input {
-    padding: 2px 3px;
+    width: 100%;
+    padding: 1px 1px;
     border-radius: 3px;
     border: 1px solid #ced4da;
     font-weight: 500;
@@ -91,7 +91,7 @@ body {
 }
 
 .total-score {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: var(--primary-color);
 }
@@ -108,7 +108,7 @@ body {
 }
 
 .criteria-cell {
-    padding: 5px;
+    padding: 3px;
     border-right: 1px solid #e9ecef;
     vertical-align: middle;
     position: sticky;
@@ -138,12 +138,12 @@ body {
     border-radius: 3px;
     border: 0px solid #ced4da;
     background-color: white;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: var(--danger-color);
 }
 
 .select-box {
-    padding: 4px 4px;
+    width: 100%;
     border-radius: 6px;
     border: 1px solid #ced4da;
     background-color: white;
@@ -181,15 +181,14 @@ body {
 
 .table-scroll-container {
     overflow-x: auto;
-    max-height: 45vh;
+    max-height: 50vh;
     overflow-y: auto;
 }
 
 .sort-controls {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-top: 10px;
+    margin-top: 3px;
 }
 
 .sort-label {
@@ -198,9 +197,10 @@ body {
 }
 
 .sort-select {
-    padding: 6px 10px;
+    padding: 3px 5px;
+    width: 100px;
     border-radius: 4px;
-    border: 1px solid #ced4da;
+    border: 1px #ced4da;
     background-color: white;
     font-size: 0.85rem;
 }
@@ -214,15 +214,14 @@ body {
 }
 
 .type-label {
-    font-weight: 600;
+    font-weight: 500;
     color: var(--primary-color);
-    font-size: 0.85rem;
+    font-size: 0.80rem;
 }
 
 .total-weight-display {
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid #dee2e6;
+    margin-top: 5px;
+    padding-top: 5px;
     font-size: 0.85rem;
 }
 
