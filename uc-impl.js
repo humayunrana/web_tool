@@ -16,7 +16,8 @@ function initializePage() {
 }
 
 function initVariables(){
-    let count = parseInt(new URLSearchParams(window.location.search).get("count") ?? "2", 10);
+    let url_param = new URLSearchParams(window.location.search);
+    let count = parseInt(url_param.get("count") ?? "2", 10);
     if( isNaN(count) ) {
         universityCount = 2;
     } else {
@@ -25,14 +26,11 @@ function initVariables(){
 }
 
 function initializeUniversities() {
+    let url_param = new URLSearchParams(window.location.search);
     universities = [];
-    for (let i = 0; i < universityCount; i++) {
-        universities.push({
-            id: i + 1,
-            name: `University ${String.fromCharCode(65 + i)}`,
-            scores: {},
-            totalScore: 0
-        });
+    for (let i = 1; i <= universityCount; i++) {
+        let uni_name = url_param.get("u"+i) ?? `University ${String.fromCharCode(65 + (i-1))}`;
+        universities.push({ id: i, name: uni_name, scores: {}, totalScore: 0 });
     }
 }
 
@@ -121,8 +119,10 @@ function renderCriteria() {
                         </select>
                     </div>
                 </div>
-                <div class="criteria-label">${criterion.name}</div>
-                <div class="criteria-description">${criterion.description}</div>
+                <div class="criteria-label">
+                    ${criterion.name}
+                    <i class="bi bi-info-circle-fill text-primary" onclick="alert('${criterion.description}');"></i>
+                </div>
             </div>
         `;
         row.appendChild(criteriaCol);
@@ -300,4 +300,14 @@ function exportedTableCell(uni,crit){
         }
     }
     return '<td style="padding: 8px; border-radius: 4px;"></td>';
+}
+
+function openURLForSameUniversities() {
+    const params = new URLSearchParams();
+    params.set('count', universityCount);
+    for (let i = 0; i < universities.length; i++) {
+        params.set(`u${i + 1}`, universities[i].name);
+    }
+    let url = `${window.location.pathname}?${params.toString()}`;
+    window.open(url, "_blank");
 }
