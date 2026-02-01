@@ -96,6 +96,7 @@ function sortCriteria() {
 
 function renderCriteria() {
     const container = document.getElementById('criteriaContainer');
+    const totalWeight = document.getElementById('totalWeight').textContent;
     container.innerHTML = '';
     criteria.forEach(criterion => {
         const row = document.createElement('div');
@@ -120,6 +121,9 @@ function renderCriteria() {
                                 `<option value="${i}" ${criterion.weight === i ? 'selected' : ''}>${i}</option>`
                             ).join('')}
                         </select>
+                    </div>
+                    <div class="criteria-percent">
+                        (${Math.round( criterion.weight/totalWeight * 1000) / 10}%)
                     </div>
                 </div>
                 <div class="criteria-label">
@@ -205,11 +209,11 @@ function updateUniversityScoreDisplay(uniId) {
     if (uni) {
         const scoreElement = document.getElementById(`score-${uniId}`);
         if (scoreElement) {
-            scoreElement.textContent = uni.totalScore;
-            const percentage = (uni.totalScore / 100) * 100;
-            if (percentage >= 75) {
+            let percentage =  Math.round(uni.totalScore*100 / document.getElementById('totalWeight').textContent);
+            scoreElement.innerHTML = percentage + '<small>/100</small>';
+            if (percentage >= 80) {
                 scoreElement.style.color = 'var(--success-color)';
-            } else if (percentage >= 50) {
+            } else if (percentage >= 60) {
                 scoreElement.style.color = 'var(--warning-color)';
             } else {
                 scoreElement.style.color = 'var(--danger-color)';
@@ -240,6 +244,7 @@ function syncHeaderScroll() {
 }
 
 function exportToHTML() {
+    const totalScore = criteria.reduce((sum, c) => sum + c.weight, 0);
     const htmlContent = `
     <!DOCTYPE html>
     <html>
@@ -258,14 +263,19 @@ function exportToHTML() {
         <table style="width: 100%; border-collapse: collapse; margin: 5px 0;">
             <thead>
                 <tr>
-                    <th style="text-align: left; width:${criteria_header_cell_width[universityCount]}%">Compared Values: ${criteria.length}<br>Total Score: ${criteria.reduce((sum, c) => sum + c.weight, 0)}</th>
-                    ${universities.map(uni => `<th style="width:${criteria_value_cell_width[universityCount]}%">${uni.name}<br><i>Score: ${uni.totalScore}</i></th>`).join('')}
+                    <th style="text-align: left; width:${criteria_header_cell_width[universityCount]}%">Compared Values: ${criteria.length}<br>Total Score: ${totalScore}</th>
+                    ${universities.map(uni => `<th style="width:${criteria_value_cell_width[universityCount]}%">${uni.name}<br><i>${Math.round(uni.totalScore*100/totalScore)}</i><small> / 100</small></th>`).join('')}
                 </tr>
             </thead>
             <tbody>
                 ${criteria.map(crit => `
                 <tr style="height: 60px;">
-                    <td><strong>${crit.name}</strong><br><small>${crit.description}</small></td>
+                    <td>
+                        <strong>${crit.name}</strong>
+                        <small>(${Math.round( crit.weight/totalScore * 1000) / 10}%)</small>
+                        <br>
+                        <small>${crit.description}</small>
+                    </td>
                     ${universities.map(uni => exportedTableCell(uni,crit)).join('')}
                 </tr>
                 `).join('')}
